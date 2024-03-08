@@ -1,0 +1,117 @@
+﻿@model lezione70z.Models.PrenotazioneViewModel
+
+@{
+    ViewBag.Title = "Registra Prenotazione";
+}
+
+<main>
+    <div class="row">
+        <h2>Registra Prenotazione</h2>
+
+        @using (Html.BeginForm("RegistraPrenotazione", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DataPrenotazione, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.DataPrenotazione, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Anno, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Anno, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DataArrivo, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.DataArrivo, new { @class = "form-control", type = "date" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DataPartenza, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.DataPartenza, new { @class = "form-control", type = "date" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Cauzione, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Cauzione, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Tariffa, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Tariffa, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBoxFor(model => model.MezzaPensione) Mezza Pensione
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBoxFor(model => model.PensioneCompleta) Pensione Completa
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBoxFor(model => model.PrimaColazione) Prima Colazione
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CodiceFiscaleCliente, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.CodiceFiscaleCliente, Model.CodiciFiscaliList, "-- Seleziona un codice fiscale --", new { @class = "form-control" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NumeroCamera, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.NumeroCamera, Model.CamereList, "-- Seleziona una camera --", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+
+                    <button type="submit" class="btn btn-primary">Registra Prenotazione</button>
+
+                </div>
+            </div>
+        }
+
+        <p class="text-danger">@Html.ValidationSummary()</p>
+    </div>
+</main>

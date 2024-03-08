@@ -1,0 +1,97 @@
+-- Tabella per i dipendenti dell'hotel
+CREATE TABLE Dipendenti (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    Nome NVARCHAR(50),
+    Cognome NVARCHAR(50),
+    Username NVARCHAR(50),
+    Password NVARCHAR(50)
+);
+
+-- Tabella per i clienti
+CREATE TABLE Clienti (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    CodiceFiscale NVARCHAR(16),
+    Nome NVARCHAR(50),
+    Cognome NVARCHAR(50),
+    Citta NVARCHAR(50),
+    Provincia NVARCHAR(50),
+    Email NVARCHAR(50),
+    Telefono NVARCHAR(15),
+    Cellulare NVARCHAR(15)
+);
+
+-- Tabella per le camere dell'albergo
+CREATE TABLE Camere (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    Numero INT,
+    Descrizione NVARCHAR(100),
+    Tipologia NVARCHAR(20),
+);
+
+-- Tabella per le prenotazioni
+CREATE TABLE Prenotazioni (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    Anno INT,
+    DataPrenotazione DATE,
+    DataArrivo DATE,
+    DataPartenza DATE,
+    Cauzione DECIMAL(10, 2),
+    Tariffa DECIMAL(10, 2),
+    MezzaPensione BIT,
+    PensioneCompleta BIT,
+    PrimaColazione BIT,
+    CodiceFiscaleCliente NVARCHAR(16), 
+    NumeroCamera INT,
+    FOREIGN KEY (NumeroCamera) REFERENCES Camere(ID)
+);
+
+-- Tabella per i servizi aggiuntivi
+CREATE TABLE ServiziAggiuntivi (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    DataServizio DATE,
+    Quantita INT,
+    CodiceFiscaleCliente NVARCHAR(16),
+    NumeroCamera INT,
+    TipoServizioID INT,
+    FOREIGN KEY (NumeroCamera) REFERENCES Camere(ID),
+
+);
+
+-- Tabella per i tipi di servizi
+CREATE TABLE TipiServizi (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    NomeServizio NVARCHAR(50),
+    Prezzo DECIMAL(10, 2)
+);
+
+
+
+-- INSERIMENTO CAMERE 
+INSERT INTO Camere (Numero, Descrizione, Tipologia)
+VALUES ('1', 'Camera SPECCIALE', 'Singola');
+
+INSERT INTO Camere (Numero, Descrizione, Tipologia, Prezzo)
+VALUES ('2', 'Camera per persone con speciali caratteristiche', 'Doppia');
+
+
+-- INSERIMENTO CLIENTI DI BASE
+INSERT INTO Clienti (CodiceFiscale, Nome, Cognome, Citta, Provincia, Email, Telefono, Cellulare)
+VALUES
+    ('ABC12345DEF67890', 'Mario', 'Rossi', 'Roma', 'RM', 'mario.rossi@email.com', '0612345678', '3456789123'),
+    ('XYZ98765UVW43210', 'Anna', 'Verdi', 'Milano', 'MI', 'anna.verdi@email.com', '0287654321', '3334445555'),
+    ('LMN45678OPQ12345', 'Luigi', 'Bianchi', 'Firenze', 'FI', 'luigi.bianchi@email.com', '0551234567', '3332221111');
+
+
+-- INSERISCI I VARI ADMIN
+INSERT INTO Dipendenti (Nome, Cognome, Username, Password)
+VALUES('Giuseppe', 'Conza', 'Soup', '123');
+
+
+-- INSERIMENTO DEI SERVIZI
+INSERT INTO TipiServizi (NomeServizio, Prezzo) VALUES ('Colazione in camera', 15.00);
+INSERT INTO TipiServizi (NomeServizio, Prezzo) VALUES ('Bevande e cibo nel mini bar', 10.00);
+INSERT INTO TipiServizi (NomeServizio, Prezzo) VALUES ('Internet', 5.00);
+INSERT INTO TipiServizi (NomeServizio, Prezzo) VALUES ('Letto aggiuntivo', 120.00);
+INSERT INTO TipiServizi (NomeServizio, Prezzo) VALUES ('Culla', 15.00);
+
+

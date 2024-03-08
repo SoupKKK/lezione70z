@@ -1,0 +1,63 @@
+﻿@model lezione70z.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+    // bool isAuthenticated = ViewBag.IsAuthenticated != null && (bool)ViewBag.IsAuthenticated;
+    bool isAuthenticated = true;
+}
+
+<main>
+    @if (isAuthenticated)
+    {
+        <div class="text-center">
+            <h1 class="my-2">Benvenuto</h1>
+
+            <div class="mb-4">
+                @using (Html.BeginForm("RegistraPrenotazione", "Admin", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-primary">Registra Prenotazione</button>
+                }
+            </div>
+
+            <div class="mb-4">
+                @using (Html.BeginForm("PrenotazioniCliente", "PrenotazioniCliente", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-primary">Prenotazioni Cliente</button>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <h2>Login</h2>
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nome)
+                    @Html.TextBoxFor(model => model.Nome, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Nome)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cognome)
+                    @Html.TextBoxFor(model => model.Cognome, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Cognome)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Username)
+                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Username)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password)
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            }
+        </div>
+    }
+</main>

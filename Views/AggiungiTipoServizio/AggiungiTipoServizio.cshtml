@@ -1,0 +1,62 @@
+﻿@model lezione70z.Models.AggiungiTipoServizioViewModel
+
+@{
+    ViewBag.Title = "Aggiungi Tipo Servizio";
+}
+
+<h2>Aggiungi Tipo Servizio</h2>
+
+@using (Html.BeginForm("SalvaTipoServizio", "AggiungiTipoServizio", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DataServizio)
+        @Html.TextBoxFor(model => model.DataServizio, new { @class = "form-control", type = "date" })
+        @Html.ValidationMessageFor(model => model.DataServizio)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Quantita)
+        @Html.TextBoxFor(model => model.Quantita, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Quantita)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CodiceFiscaleCliente)
+        @Html.TextBoxFor(model => model.CodiceFiscaleCliente, new { @class = "form-control", @readonly = "readonly" })
+        @Html.ValidationMessageFor(model => model.CodiceFiscaleCliente)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NumeroCamera)
+        @Html.TextBoxFor(model => model.NumeroCamera, new { @class = "form-control", @readonly = "readonly" })
+        @Html.ValidationMessageFor(model => model.NumeroCamera)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TipoServizioID)
+        @if (Model.TipiServizi != null && Model.TipiServizi.Any())
+        {
+            @Html.DropDownListFor(model => model.TipoServizioID, new SelectList(Model.TipiServizi, "Value", "Text"), "-- Seleziona un tipo di servizio --", new { @class = "form-control" })
+        }
+        else
+        {
+            <p class="text-danger">Nessun tipo di servizio disponibile</p>
+        }
+        @Html.ValidationMessageFor(model => model.TipoServizioID)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salva Tipo Servizio</button>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <p class="text-danger">Si è verificato un errore durante il salvataggio del tipo di servizio.</p>
+    <ul>
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <li>@error.ErrorMessage</li>
+        }
+    </ul>
+}

@@ -1,0 +1,74 @@
+﻿@model lezione70z.Models.PrenotazioniClienteViewModel
+
+@{
+    ViewBag.Title = "Prenotazioni Cliente";
+}
+
+<h2>Prenotazioni Cliente</h2>
+
+<h2>Prenotazioni Cliente</h2>
+
+@using (Html.BeginForm("PrenotazioniCliente", "PrenotazioniCliente", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CodiceFiscaleCliente)
+        @Html.DropDownListFor(model => model.CodiceFiscaleCliente, (IEnumerable<SelectListItem>)ViewBag.CodiciFiscaliList, "-- Seleziona un cliente --", new { @class = "form-control", onchange = "this.form.submit();" })
+    </div>
+}
+
+@if (Model.Prenotazioni != null && Model.Prenotazioni.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data Prenotazione</th>
+                <th>Anno</th>
+                <th>Data <br />Arrivo</th>
+                <th>Data <br />Partenza</th>
+                <th>Cauzione</th>
+                <th>Tariffa</th>
+                <th>Mezza <br />Pensione</th>
+                <th>Pensione <br />Completa</th>
+                <th>Prima <br />Colazione</th>
+                <th>Id <br />Camera</th>
+                <th>Aggiungi <br />Servizio</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prenotazione in Model.Prenotazioni)
+            {
+                <tr>
+                    <td>@prenotazione.DataPrenotazione</td>
+                    <td>@prenotazione.Anno</td>
+                    <td>@prenotazione.DataArrivo.ToShortDateString()</td>
+                    <td>@prenotazione.DataPartenza.ToShortDateString()</td>
+                    <td>@prenotazione.Cauzione</td>
+                    <td>@prenotazione.Tariffa</td>
+                    <td>@(prenotazione.MezzaPensione ? "Sì" : "No")</td>
+                    <td>@(prenotazione.PensioneCompleta ? "Sì" : "No")</td>
+                    <td>@(prenotazione.PrimaColazione ? "Sì" : "No")</td>
+                    <td>@prenotazione.NumeroCamera</td>
+                    <td>
+
+                        @using (Html.BeginForm("AggiungiTipoServizio", "AggiungiTipoServizio", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="NumeroCamera" value="@prenotazione.NumeroCamera" />
+                            <input type="hidden" name="CodiceFiscale" value="@Model.CodiceFiscaleCliente" />
+                            <button type="submit" class="btn btn-success">Aggiungi</button>
+                        }
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Nessuna prenotazione trovata per il cliente selezionato.</p>
+}
